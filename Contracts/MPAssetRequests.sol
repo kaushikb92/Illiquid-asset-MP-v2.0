@@ -1,6 +1,6 @@
 pragma solidity ^0.4.8;
 
-contract MPAssetRequests is Assets,AToken{
+contract MPAssetRequests{
 
     
     struct newMPAssetRequest{
