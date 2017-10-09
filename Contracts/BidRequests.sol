@@ -17,6 +17,8 @@ contract BidRequests{
     mapping(bytes8=>bidRequest) public bidRequestById;
     mapping(bytes8=>bool) public bidRequestStatus;
 
+    mapping(bytes32=>uint) public mapDeadline;
+
     struct bidByAssetId{
         bytes8[] bidId;
     }
@@ -31,7 +33,7 @@ contract BidRequests{
 
     mapping (bytes32=>mapping(bytes32=>bytes8)) mapBidsByBuyerWithAssetId;
 
-    function addNewBid( bytes32 _assetId, bytes32 _sellerId,bytes32 _buyerId,uint256 _bidAmount,uint _bidQuantity,bytes8 _bidId,address _requestRaiser)returns (bool _status){
+    function addNewBid( bytes32 _assetId, bytes32 _sellerId,bytes32 _buyerId,uint256 _bidAmount,uint _bidQuantity,bytes8 _bidId, address _requestRaiser)returns (bool _status){
 
         bidRequest memory currentBid;
         currentBid.assetId = _assetId;
@@ -42,6 +44,9 @@ contract BidRequests{
         currentBid.timestamp = block.timestamp;
         currentBid.bidId = _bidId;
         allBidRequest.push(currentBid);
+
+        mapDeadline[_bidId] = now + 2 * 24 * 60 * 1 minutes;
+
 
         mapBidsByBuyerWithAssetId[_assetId][_buyerId] = _bidId;
         bidRequestOnAssetByAssetId[_sellerId][_assetId].bidId.push(_bidId);
@@ -71,6 +76,7 @@ contract BidRequests{
     }
 
     function approveBid(bytes8 _bidId) returns (bool success){
+        if (now >= mapDeadline[_bidId]) throw;
         bidRequestStatus[_bidId] = true;
         return true;
     }

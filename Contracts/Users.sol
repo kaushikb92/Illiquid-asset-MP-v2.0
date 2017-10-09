@@ -21,7 +21,6 @@ contract Users{
         uint DBAccountNo;
     }
 
-    
     /* Function to register a new user*/
     function addNewUser(bytes32 _firstName, bytes32 _lastName, address _walletAddr, bytes32 _userID, uint _DBAccountNo, bytes32 _userPwd, uint _mobile) returns (bool addUser_status){
         User memory newRegdUser;
@@ -41,6 +40,18 @@ contract Users{
         userlogin[_userID] = _walletAddr;
 
         return true; 
+    }
+
+    function getAdminLogin(bytes32 _userID,bytes32 _userPwd) constant returns (bool _status){
+        if (_userID == "ADMIN123") {
+            if (_userPwd == "12345" ){
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+        return false;
     }
 
     /* Function to query user details with associated wallet address*/

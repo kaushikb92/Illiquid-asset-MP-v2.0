@@ -9,8 +9,6 @@ contract AssetToken is AssetRegister{
    /* This creates an array with asset balances to asset ids and wallet address */
     mapping(bytes32=>mapping(address=>uint256)) public balanceATOfUsers;
     mapping(bytes32=>mapping(address=>uint256)) public aquisitionPriceOfUsers;
-
-    mapping(bytes32=>mapping(address=>uint256)) public balanceOfREAsset;
     
     /* This generates a public event on the blockchain that will notify clients */
     event assetTransfer(address indexed from, address indexed to, uint256 value, bytes32 assetName);

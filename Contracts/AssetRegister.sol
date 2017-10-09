@@ -9,6 +9,12 @@ contract AssetRegister{
 
     /* Stracture to hold each user's details*/
     mapping(bytes32=> assetDetails) public assetDetailsByAID;
+
+    struct assetIdsByType{
+        bytes32[] AID;
+    }
+
+    mapping(bytes32=> assetIdsByType) public assetDetailsByAssetType;
    
     mapping(bytes32=> uint256) public marketPricePerAssetId;
 
@@ -32,7 +38,7 @@ contract AssetRegister{
     }
 
     /* Function to register a new asset*/
-    function addNewAsset(bytes32 _assetName, uint _quantity, uint256 _priceOfEach, bytes32 _assetType, bytes32 _assetSubType, bytes32 _assetID) returns (bool addAsset_Status){
+    function addNewAsset(bytes32 _assetName, bytes32 _assetType, bytes32 _assetSubType, bytes32 _assetID) returns (bool addAsset_Status){
 
         assetDetails memory newRegdAsset;
         newRegdAsset.assetName = _assetName;
@@ -44,12 +50,17 @@ contract AssetRegister{
 
         //assetVisibility[_ownerOfAsset][_assetID] = true;
         assetDetailsByAID[_assetID] = newRegdAsset;
+        assetDetailsByAssetType[_assetType].AID.push(_assetID);
         //assetWalletAddress[_ownerOfAsset] = _assetID;
         //assetQuantityOfOwner[_ownerOfAsset][_assetID] = _quantity;
         //assetPrice[_assetID] = _priceOfEach;
         //assetsByOwner[_ownerOfAsset].AID.push(_assetID);
 
         return true;
+    }
+
+    function getAssetIdByType(bytes32 _assetType) constant returns(bytes32[]){
+        return (assetDetailsByAssetType[_assetType].AID);
     }
 
     function getAllAssetDetails(bytes32 _assetID) constant returns(bytes32[],uint[],bytes32[],bytes32[],bytes32[]){

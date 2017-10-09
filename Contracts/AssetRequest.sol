@@ -48,7 +48,7 @@ contract AssetRequest{
         return (requestIds);
     }
 
-    function getMPAssetRequestsById(bytes8 _requestId) constant returns(bytes32,bytes32,bytes32,bytes32,uint,bool){
+    function getAssetRequestsById(bytes8 _requestId) constant returns(bytes32,bytes32,bytes32,bytes32,uint,bool){
         return(assetRequestsByRequestIds[_requestId].assetName,assetRequestsByRequestIds[_requestId].assetType,assetRequestsByRequestIds[_requestId].companyName,assetRequestsByRequestIds[_requestId].asseetSubType,assetRequestsByRequestIds[_requestId].timestamp,newAssetRequestStatus[_requestId]);
     }
 
