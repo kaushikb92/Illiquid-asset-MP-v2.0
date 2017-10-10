@@ -28,10 +28,12 @@ contract AssetToken is AssetRegister{
 
     /* Function to mint tokens as per the registered asset's details with the seller's wallet address*/
     function setAssetToken(address _assetOwner, bytes32 _assetID, uint256 _tokensToMint, uint256 _aquisitionPrice) returns (bool success){
+        
         balanceATOfUsers[_assetID][_assetOwner] = _tokensToMint;
         aquisitionPriceOfUsers[_assetID][_assetOwner] = _aquisitionPrice;
         AssetRegister.addAssetWithWalletInReg(_assetOwner,_assetID);
         mapAssetholders[_assetID].holders.push(_assetOwner);
+        
         //AssetRegister.enableVisibility(_to,_assetID);
         return true;
     }
